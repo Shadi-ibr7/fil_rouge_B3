@@ -1,22 +1,22 @@
-const mongoose = require("mongoose");
-const Schema = mongoose.Schema;
+const mongoose = require('mongoose');
 
+// Utiliser mongoose.Schema directement
+const EventSchema = new mongoose.Schema({
+  title: { type: String, required: true },
+  description: { type: String, required: true },
+  category: { type: String, enum: ["culturel", "sportif", "communautaire"], required: true },
+  dateCreated: { type: Date, required: true },
+  dateEvent: { type: Date, required: true },
+  location: { type: String, required: true },
+  image: { type: Buffer },
+  contactInfo: {
+    email: { type: String },
+    phone: { type: String },
+  },
+  createdBy: { type: String, required: true },
+  participants: [{ type: mongoose.Schema.Types.ObjectId, ref: "UserList" }],
+});
 
-const EventSchema = new Schema({
-    title: { type: String, required: true },
-    description: { type: String, required: true },
-    category: { type: String, enum: ["culturel", "sportif", "communautaire"], required: true },
-    dateCreated: { type: Date, required: true },
-    dateEvent: { type: Date, required: true },
-    location: { type: String, required: true },
-    image: { type: Buffer }, 
-    contactInfo: {
-      email: { type: String },
-      phone: { type: String },
-    },
-    createdBy: { type: String, required: true },  });
-  
-  const EventList = mongoose.model("EventList", EventSchema);
-  
-  module.exports = EventList;
-  
+// Modèle exporté
+const EventList = mongoose.model("EventList", EventSchema);
+module.exports = EventList;

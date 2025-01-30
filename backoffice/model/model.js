@@ -1,7 +1,6 @@
-const mongoose = require("mongoose");
-const Schema = mongoose.Schema;
+const mongoose = require('mongoose');
 
-const UserSchema = new Schema({
+const UserSchema = new mongoose.Schema({
   email: {
     type: String,
     required: true,
@@ -15,12 +14,21 @@ const UserSchema = new Schema({
   },
   phoneNumber: {
     type: Number,
-    match: /^[0-9]+$/, 
-},
-role: { type: String, enum: ['user', 'admin'], default: 'user' }
-
+    match: /^[0-9]+$/,
+  },
+  participatedEvents: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'EventList',
+    },
+  ],
+  role: { 
+    type: String, 
+    enum: ['user', 'admin'], 
+    default: 'user',
+  },
 });
 
-const userList = mongoose.model("UserList", UserSchema);
-
-module.exports = userList
+// Modèle exporté
+const UserList = mongoose.model("UserList", UserSchema);
+module.exports = UserList;

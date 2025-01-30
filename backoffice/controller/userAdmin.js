@@ -1,8 +1,10 @@
 require("dotenv").config();
 const EventList = require("../model/eventList");
+const userList = require('../model/model');
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const multer = require("multer");
+const UserList = require("../model/model");
 const secretKey = process.env.SECRET_KEY;
 
 // Middleware
@@ -91,8 +93,23 @@ const fetchEvents = async (req, res) => {
   }
 };
 
+
+//Récuperer l'utilisateur connecter
+const fetchUser = async (req, res) => {
+  const { idUser } = req.params; 
+  try {
+    const user = await UserList.find({ _id: idUser }); 
+    res.status(200).json(user);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Erreur lors de la récupération de l'user" });
+  }
+};
+
+
 module.exports = {
   upload,
   CreateEvents,
   fetchEvents,
+  fetchUser
 };
